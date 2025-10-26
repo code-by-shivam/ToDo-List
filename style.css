@@ -1,269 +1,323 @@
-/* ----Base Styles ----*/
+/* ---- Base Styles ---- */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
-/* ----Container ----*/
+/* ---- Container ---- */
 .container {
-    width: 100%;
-    min-height: 100vh;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* ----Todo App Card ----*/
+/* ---- Date & Task Info ---- */
+.header-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.current-date {
+  text-align: center;
+  font-size: 15px;
+  font-weight: 500;
+  color: #4b4b4b;
+  letter-spacing: 0.5px;
+  background: rgba(102, 126, 234, 0.1);
+  padding: 8px 12px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  display: inline-block;
+  box-shadow: 0 2px 6px rgba(102, 126, 234, 0.2);
+}
+
+.task-stats {
+  text-align: right;
+  font-size: 15px;
+  color: #444;
+  font-weight: 500;
+  margin-bottom: 15px;
+  padding: 6px 10px;
+  background: rgba(255, 89, 69, 0.1);
+  border-radius: 8px;
+  display: inline-block;
+  float: right;
+  box-shadow: 0 2px 6px rgba(255, 89, 69, 0.15);
+}
+
+/* ---- Todo App Card ---- */
 .todo-app {
-    width: 100%;
-    max-width: 540px;
-    background: #fff;
-    margin: 100px auto 20px;
-    padding: 40px 30px 70px;
-    border-radius: 10px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-    animation: fadeInUp 0.5s ease-out;
+  width: 100%;
+  max-width: 540px;
+  background: #fff;
+  margin: 100px auto 20px;
+  padding: 40px 30px 70px;
+  border-radius: 10px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  animation: fadeInUp 0.5s ease-out;
 }
 
 @keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* ----Header ----*/
+/* ---- Header ---- */
 .todo-app h2 {
-    color: #002765;
-    display: flex;
-    align-items: center;
-    margin-bottom: 25px;
-    font-size: 32px;
-    font-weight: 600;
+  color: #002765;
+  display: flex;
+  align-items: center;
+  margin-bottom: 25px;
+  font-size: 32px;
+  font-weight: 600;
 }
 
 .todo-app h2 img {
-    width: 32px;
-    height: 32px;
-    margin-left: 12px;
-    animation: bounce 2s ease-in-out infinite;
+  width: 32px;
+  height: 32px;
+  margin-left: 12px;
+  animation: bounce 2s ease-in-out infinite;
 }
 
 @keyframes bounce {
-    0%, 100% { 
-        transform: translateY(0); 
-    }
-    50% { 
-        transform: translateY(-8px); 
-    }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
 }
 
-/* ----Input Row ----*/
+/* ---- Input Row ---- */
 .row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: #edeef0;
-    border-radius: 30px;
-    padding-left: 20px;
-    margin-bottom: 25px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    transition: all 0.3s ease;
-    border: 2px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #edeef0;
+  border-radius: 30px;
+  padding-left: 20px;
+  margin-bottom: 25px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
 }
 
 .row:focus-within {
-    border-color: #ff5945;
-    box-shadow: 0 4px 16px rgba(255, 89, 69, 0.2);
-    transform: translateY(-2px);
+  border-color: #ff5945;
+  box-shadow: 0 4px 16px rgba(255, 89, 69, 0.2);
+  transform: translateY(-2px);
 }
 
-/* ----Input Field ----*/
+/* ---- Input Field ---- */
 input {
-    flex: 1;
-    border: none;
-    outline: none;
-    background: transparent;
-    padding: 16px 20px;
-    font-size: 16px;
-    color: #002765;
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 16px 20px;
+  font-size: 16px;
+  color: #002765;
 }
 
 input::placeholder {
-    color: #999;
-    font-weight: 300;
+  color: #999;
+  font-weight: 300;
 }
 
 /* ---- Button ---- */
 button {
-    border: none;
-    outline: none;
-    padding: 16px 50px;
-    background: #ff5945;
-    color: #fff;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    border-radius: 40px;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
+  border: none;
+  outline: none;
+  padding: 16px 50px;
+  background: #ff5945;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 40px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
 button::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.3);
-    transform: translate(-50%, -50%);
-    transition: width 0.6s, height 0.6s;
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
 }
 
 button:hover {
-    background: #ff3d29;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(255, 89, 69, 0.4);
+  background: #ff3d29;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 89, 69, 0.4);
 }
 
 button:hover::before {
-    width: 300px;
-    height: 300px;
+  width: 300px;
+  height: 300px;
 }
 
 button:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 8px rgba(255, 89, 69, 0.3);
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(255, 89, 69, 0.3);
 }
 
-/* ----Task List ----*/
+/* ---- Task List (Improved Layout) ---- */
+ul {
+  padding: 0;
+}
+
 ul li {
-    list-style: none;
-    font-size: 17px;
-    padding: 16px 12px 16px 55px;
-    user-select: none;
-    cursor: pointer;
-    position: relative;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    word-wrap: break-word;
+  list-style: none;
+  font-size: 17px;
+  user-select: none;
+  cursor: pointer;
+  position: relative;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  background: #f9f9ff;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
 }
 
 ul li:hover {
-    background: #f8f9fa;
-    transform: translateX(5px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  background: #f1f1ff;
+  transform: scale(1.01);
 }
 
-/* ----Checkbox ----*/
+/* ---- Checkbox ---- */
 ul li::before {
-    content: '';
-    position: absolute;
-    height: 28px;
-    width: 28px;
-    border-radius: 50%;
-    background-image: url('./images/unchecked.png');
-    background-size: cover;
-    background-position: center;
-    top: 50%;
-    transform: translateY(-50%);
-    left: 12px;
-    transition: all 0.3s ease;
-}
-
-ul li:hover::before {
-    transform: translateY(-50%) scale(1.1);
-}
-
-/* ----Checked State ----*/
-ul li.checked {
-    color: #555;
-    text-decoration: line-through;
-    opacity: 0.7;
+  content: '';
+  height: 24px;
+  width: 24px;
+  border-radius: 50%;
+  background-image: url('./images/unchecked.png');
+  background-size: cover;
+  background-position: center;
+  margin-right: 15px;
+  flex-shrink: 0;
+  transition: transform 0.3s;
 }
 
 ul li.checked::before {
-    background-image: url('./images/checked.png');
+  background-image: url('./images/checked.png');
 }
 
-ul li.checked:hover {
-    opacity: 0.9;
+ul li:hover::before {
+  transform: scale(1.1);
 }
 
-/* ----Delete Button ----*/
-ul li span {
-    position: absolute;
-    right: 8px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 40px;
-    height: 40px;
-    font-size: 22px;
-    color: #555;
-    line-height: 40px;
-    text-align: center;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    opacity: 0.6;
+/* ---- Task Text ---- */
+.task-text {
+  flex: 1;
+  color: #333;
+  font-size: 16px;
+  word-break: break-word;
 }
 
-ul li:hover span {
-    opacity: 1;
+ul li.checked .task-text {
+  color: #777;
+  text-decoration: line-through;
 }
 
-ul li span:hover {
-    background: #ff5945;
-    color: #fff;
-    transform: translateY(-50%) rotate(90deg) scale(1.1);
+/* ---- Edit Button ---- */
+.edit-btn {
+  background: #4CAF50;
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  font-size: 13px;
+  padding: 6px 14px;
+  margin-right: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
-/* ----Responsive Design ----*/
+.edit-btn::before {
+  content: "✏️";
+}
+
+.edit-btn:hover {
+  background: #43a047;
+  transform: scale(1.05);
+}
+
+/* ---- Delete Button ---- */
+ul li span.delete {
+  font-size: 22px;
+  color: #e74c3c;
+  cursor: pointer;
+  margin-left: 8px;
+  transition: 0.3s;
+}
+
+ul li span.delete:hover {
+  color: #fff;
+  background: #ff5945;
+  border-radius: 50%;
+  padding: 4px;
+  transform: rotate(90deg) scale(1.1);
+}
+
+/* ---- Inline Edit Input ---- */
+.edit-input {
+  border: 2px solid #667eea;
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 16px;
+  width: 70%;
+  outline: none;
+  color: #002765;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(102, 126, 234, 0.2);
+}
+
+/* ---- Responsive ---- */
 @media (max-width: 600px) {
-    .container {
-        padding: 10px;
-    }
-    
-    .todo-app {
-        margin: 50px auto 20px;
-        padding: 30px 20px 50px;
-    }
-    
-    .todo-app h2 {
-        font-size: 26px;
-    }
-    
-    button {
-        padding: 14px 35px;
-        font-size: 15px;
-    }
-    
-    ul li {
-        font-size: 16px;
-        padding: 14px 10px 14px 50px;
-    }
-}
+  .container { padding: 10px; }
 
-@media (max-width: 400px) {
-    button {
-        padding: 14px 25px;
-        font-size: 14px;
-    }
-    
-    .todo-app h2 {
-        font-size: 24px;
-    }
+  .todo-app {
+    margin: 50px auto 20px;
+    padding: 30px 20px 50px;
+  }
+
+  .todo-app h2 { font-size: 26px; }
+
+  button {
+    padding: 14px 35px;
+    font-size: 15px;
+  }
+
+  ul li {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .edit-btn, ul li span.delete {
+    margin-top: 8px;
+  }
 }
