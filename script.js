@@ -1,113 +1,123 @@
-const inputBox = document.getElementById("input-box");
-const listContainer = document.getElementById("list-container");
-const currentDateEl = document.getElementById("current-date");
-const taskStats = document.getElementById("task-stats");
+const todoForm = document.querySelector("#todo-form");
+const todoList = document.querySelector(".todos");
+const totalTasks = document.querySelector("#total-tasks");
+const completedTasks = document.querySelector("#completed-tasks");
+const remainingTasks = document.querySelector("#remaining-tasks");
+const mainInput = document.querySelector("#todo-form input");
 
-// 🗓 Display today's date
-function displayCurrentDate() {
-  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-  const today = new Date();
-  currentDateEl.textContent = today.toLocaleDateString('en-US', options);
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+if (localStorage.getItem("tasks")) {
+  tasks.forEach((task) => createTask(task));
 }
-displayCurrentDate();
 
-// ➕ Add new task
-function addTask() {
-  if (inputBox.value.trim() === "") {
-    alert("You must write something!");
-    return;
+todoForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const inputValue = mainInput.value.trim();
+  if (inputValue === "") return;
+
+  const now = new Date();
+  const formattedDate = now.toLocaleString("en-IN", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  const task = {
+    id: new Date().getTime(),
+    name: inputValue,
+    isCompleted: false,
+    createdAt: formattedDate, // ✅ added date
+  };
+
+  tasks.push(task);
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+
+  createTask(task);
+  todoForm.reset();
+  mainInput.focus();
+});
+
+todoList.addEventListener("click", (e) => {
+  if (e.target.closest(".remove-task")) {
+    const taskId = e.target.closest("li").id;
+    removeTask(taskId);
   }
+});
 
-  const li = document.createElement("li");
+todoList.addEventListener("input", (e) => {
+  const taskId = e.target.closest("li").id;
+  updateTask(taskId, e.target);
+});
 
-  // task text span
-  const taskText = document.createElement("span");
-  taskText.className = "task-text";
-  taskText.textContent = inputBox.value;
-  li.appendChild(taskText);
+todoList.addEventListener("keydown", (e) => {
+  if (e.keyCode === 13) {
+    e.preventDefault();
+    e.target.blur();
+  }
+});
 
-  // edit button
-  const editBtn = document.createElement("button");
-  editBtn.textContent = "✏️ Edit";
-  editBtn.className = "edit-btn";
-  li.appendChild(editBtn);
+function createTask(task) {
+  const taskEl = document.createElement("li");
+  taskEl.setAttribute("id", task.id);
 
-  // delete button
-  const delBtn = document.createElement("span");
-  delBtn.innerHTML = "\u00d7";
-  li.appendChild(delBtn);
+  if (task.isCompleted) taskEl.classList.add("complete");
 
-  listContainer.appendChild(li);
-  inputBox.value = "";
-  saveData();
-  updateTaskCount();
+  const taskElMarkup = `
+    <div>
+      <input type="checkbox" name="tasks" id="${task.id}" ${task.isCompleted ? "checked" : ""}>
+      <span ${!task.isCompleted ? "contenteditable" : ""}>${task.name}</span>
+    </div>
+    <small class="task-date">🕓 ${task.createdAt || "No date available"}</small>
+    <button title="Remove the ${task.name} task" class="remove-task">
+      <svg fill="#000000" width="20px" height="20px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+        <path d="M697.4 759.2l61.8-61.8L573.8 512l185.4-185.4-61.8-61.8L512 450.2 
+        326.6 264.8l-61.8 61.8L450.2 512 264.8 697.4l61.8 61.8L512 573.8z"/>
+      </svg>
+    </button>
+  `;
+
+  taskEl.innerHTML = taskElMarkup;
+  todoList.appendChild(taskEl);
+  countTasks();
 }
 
-// ✅, ✏️, ❌ Actions
-listContainer.addEventListener("click", (e) => {
-  const target = e.target;
+function countTasks() {
+  const completedTasksArray = tasks.filter((task) => task.isCompleted === true);
+  totalTasks.textContent = tasks.length;
+  completedTasks.textContent = completedTasksArray.length;
+  remainingTasks.textContent = tasks.length - completedTasksArray.length;
+}
 
-  if (target.tagName === "LI") {
-    target.classList.toggle("checked");
-    saveData();
-  } 
-  
-  else if (target.classList.contains("edit-btn")) {
-    const li = target.parentElement;
-    const textSpan = li.querySelector(".task-text");
+function removeTask(taskId) {
+  tasks = tasks.filter((task) => task.id !== parseInt(taskId));
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+  document.getElementById(taskId).remove();
+  countTasks();
+}
 
-    if (target.textContent === "✏️ Edit") {
-      // Switch to edit mode
-      const input = document.createElement("input");
-      input.type = "text";
-      input.value = textSpan.textContent;
-      input.className = "edit-input";
-      li.insertBefore(input, textSpan);
-      li.removeChild(textSpan);
-      target.textContent = "💾 Save";
-      input.focus();
-    } 
-    else if (target.textContent === "💾 Save") {
-      // Save edited text
-      const input = li.querySelector(".edit-input");
-      const newText = input.value.trim() || "Untitled Task";
-      const newSpan = document.createElement("span");
-      newSpan.className = "task-text";
-      newSpan.textContent = newText;
-      li.insertBefore(newSpan, input);
-      li.removeChild(input);
-      target.textContent = "✏️ Edit";
-      saveData();
+function updateTask(taskId, el) {
+  const task = tasks.find((task) => task.id === parseInt(taskId));
+  if (!task) return;
+
+  if (el.hasAttribute("contenteditable")) {
+    task.name = el.textContent;
+  } else {
+    const span = el.nextElementSibling;
+    const parent = el.closest("li");
+
+    task.isCompleted = !task.isCompleted;
+    if (task.isCompleted) {
+      span.removeAttribute("contenteditable");
+      parent.classList.add("complete");
+    } else {
+      span.setAttribute("contenteditable", "true");
+      parent.classList.remove("complete");
     }
-  } 
-  
-  else if (target.tagName === "SPAN" && !target.classList.contains("edit-btn")) {
-    target.parentElement.remove();
-    saveData();
-    updateTaskCount();
   }
-});
 
-// 💾 Save to local storage
-function saveData() {
-  localStorage.setItem("tasks", listContainer.innerHTML);
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+  countTasks();
 }
-
-// 📤 Load from local storage
-function showTask() {
-  const storedData = localStorage.getItem("tasks");
-  if (storedData) listContainer.innerHTML = storedData;
-  updateTaskCount();
-}
-showTask();
-
-// 🧮 Update task count
-function updateTaskCount() {
-  const totalTasks = listContainer.getElementsByTagName("li").length;
-  taskStats.textContent = `${totalTasks} task${totalTasks !== 1 ? 's' : ''}`;
-}
-
-// ⌨️ Add with Enter key
-inputBox.addEventListener("keypress", (e) => {
-  if (e.key === "Enter") addTask();
-});

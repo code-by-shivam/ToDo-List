@@ -7,27 +7,52 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="container">
-      <div class="todo-app">
-        <div class="header-info">
-          <div class="current-date" id="current-date"></div>
-          <div class="task-stats" id="task-stats">Total Task: 0 tasks</div>
-        </div>
-
-        <h2>
-          To-Do List
-          <img src="./images/logo.jpg" alt="Logo" />
-        </h2>
-
-        <div class="row">
-          <input type="text" id="input-box" placeholder="Add your text" />
-          <button onclick="addTask()">Add</button>
-        </div>
-
-        <ul id="list-container"></ul>
+    <header id="main-header">
+      <div class="container">
+        <h1>Today</h1>
+        <p id="current-date"></p>
+        <form id="todo-form">
+          <input
+            id="task-input"
+            type="text"
+            name="task-name"
+            placeholder="Add a new task"
+            autofocus
+          />
+          <button type="submit">Add Task</button>
+        </form>
       </div>
-    </div>
+    </header>
+
+    <section>
+      <div class="container" id="main-container">
+        <ul class="stats">
+          <li>
+            <span>Remaining</span>
+            <span id="remaining-tasks">0</span>
+          </li>
+          <li>
+            <span>Completed</span>
+            <span id="completed-tasks">0</span>
+          </li>
+          <li>
+            <span>Total</span>
+            <span id="total-tasks">0</span>
+          </li>
+        </ul>
+
+        <ul class="todos"></ul>
+      </div>
+    </section>
 
     <script src="script.js"></script>
+    <script>
+      document.querySelector("#current-date").textContent = new Date().toLocaleDateString("en-IN", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+    </script>
   </body>
 </html>
